@@ -1949,6 +1949,7 @@ GameObject:
   - component: {fileID: 1070015795}
   - component: {fileID: 1070015794}
   - component: {fileID: 1070015793}
+  - component: {fileID: 1070015796}
   m_Layer: 0
   m_Name: Ceiling
   m_TagString: Untagged
@@ -2042,6 +2043,21 @@ MeshFilter:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1070015791}
   m_Mesh: {fileID: 10202, guid: 0000000000000000e000000000000000, type: 0}
+--- !u!114 &1070015796
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1070015791}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2e7a54272153506478a7be7a53ce87db, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  canRender: 1
+  renderVisibleShadowMode: 1
+  renderHiddenShadowMode: 3
 --- !u!1 &1152492536
 GameObject:
   m_ObjectHideFlags: 0
@@ -3344,7 +3360,7 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 651084132257356764, guid: 982372edc4b1dd14db76504fa959f94e, type: 3}
       propertyPath: m_Name
-      value: DispenserP1
+      value: FluidDispenserP1
       objectReference: {fileID: 0}
     - target: {fileID: 5329268353514311565, guid: 982372edc4b1dd14db76504fa959f94e, type: 3}
       propertyPath: m_LocalPosition.x

@@ -2,7 +2,7 @@
 using UnityEngine;
 
 namespace AbsoluteCommons.Networking {
-	[AddComponentMenu("AbsoluteCommons/Networking/Automatic Connection Handler")]
+	[AddComponentMenu("Absolute Commons/Networking/Automatic Connection Handler")]
 	public class AutomaticConnectionHandler : MonoBehaviour {
 		private void Start() {
 			// TODO: UI for handling connections?  it won't be needed for the presentation...
