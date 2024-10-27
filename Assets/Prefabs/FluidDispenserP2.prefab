@@ -1,6 +1,6 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
---- !u!1001 &7807814602237010930
+--- !u!1001 &4269212713848506456
 PrefabInstance:
   m_ObjectHideFlags: 0
   serializedVersion: 2
@@ -12,10 +12,6 @@ PrefabInstance:
       propertyPath: m_Name
       value: FluidDispenserP2
       objectReference: {fileID: 0}
-    - target: {fileID: 690839219506031476, guid: 982372edc4b1dd14db76504fa959f94e, type: 3}
-      propertyPath: m_Materials.Array.data[0]
-      value: 
-      objectReference: {fileID: 2100000, guid: ac04406224bac5d4aaa6659f03a77f9a, type: 2}
     - target: {fileID: 5329268353514311565, guid: 982372edc4b1dd14db76504fa959f94e, type: 3}
       propertyPath: m_LocalPosition.x
       value: 0
@@ -56,7 +52,7 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 7570378236828382804, guid: 982372edc4b1dd14db76504fa959f94e, type: 3}
+    - target: {fileID: 8873932775131982264, guid: 982372edc4b1dd14db76504fa959f94e, type: 3}
       propertyPath: m_Materials.Array.data[0]
       value: 
       objectReference: {fileID: 2100000, guid: ce9fdd3216c067e40907215c5f5a11fe, type: 2}

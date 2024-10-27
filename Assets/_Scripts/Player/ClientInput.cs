@@ -15,6 +15,8 @@ namespace FluidSimulator.Player {
 			yield return new InputAxis("Vertical");
 			yield return new InputAxis("Mouse X");
 			yield return new InputAxis("Mouse Y");
+			yield return new InputKey(KeyCode.F);  // Camera Firstperson Toggle
+			yield return new InputKey(KeyCode.Escape);  // Camera Lock Toggle
 		}
 
 		private void Update() => InputMapper.Update();

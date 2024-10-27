@@ -20,7 +20,7 @@ namespace AbsoluteCommons.Components {
 
 		[SerializeField, ReadOnly] private bool _isCloseEnoughForFirstPerson;
 		public bool FirstPersonRenderingMode {
-			get => firstPerson && _isCloseEnoughForFirstPerson;
+			get => _isCloseEnoughForFirstPerson;
 			private set => _isCloseEnoughForFirstPerson = value;
 		}
 

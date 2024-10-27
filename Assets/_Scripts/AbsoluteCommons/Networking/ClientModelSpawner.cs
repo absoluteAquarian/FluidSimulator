@@ -19,6 +19,11 @@ namespace AbsoluteCommons.Networking {
 
 		[ServerRpc(RequireOwnership = false)]
 		private void SpawnClientObjectServerRpc(ulong clientID, bool localClient) {
+			if (localClient && !localClientPrefab)
+				return;  // No prefab set for local client
+			if (!localClient && !remoteClientPrefab)
+				return;  // No prefab set for remote client
+
 			GameObject obj = Instantiate(localClient ? localClientPrefab : remoteClientPrefab);
 			obj.SetActive(true);
 			NetworkObject netObj = obj.GetComponent<NetworkObject>();

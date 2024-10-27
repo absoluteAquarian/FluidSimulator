@@ -23,6 +23,7 @@ namespace AbsoluteCommons.Components {
 
 		// Update is called once per frame
 		void Update() {
+			// PlayerMovement.cs sets the player object to have the tag "Player"
 			GameObject player = GameObject.FindWithTag("Player");
 			CameraFollow view = Camera.main.GetComponent<CameraFollow>();
 			FirstPersonView viewScript = Camera.main.GetComponent<FirstPersonView>();
