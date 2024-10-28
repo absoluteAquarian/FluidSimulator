@@ -31,8 +31,10 @@ namespace AbsoluteCommons.Components {
 		[SerializeField, ReadOnly] private Timer[] _timersList = Array.Empty<Timer>();
 
 		public void AddTimer(Timer timer) {
-			if (timer.isTracked)
-				throw new ArgumentException("Timer has already been added to a tracker");
+			if (timer.isTracked) {
+				Debug.LogError("Timer has already been added to a tracker");
+				return;
+			}
 			
 			timer.isTracked = true;
 			timer.owner = gameObject;
@@ -52,11 +54,15 @@ namespace AbsoluteCommons.Components {
 		private static void RemoveTimerAutomatically(GameObject obj, Timer timer) => obj.GetComponent<TimersTracker>().RemoveTimer(timer);
 
 		public void RemoveTimer(Timer timer) {
-			if (!timer.isTracked)
-				throw new ArgumentException("Timer has not been added to a tracker");
+			if (!timer.isTracked) {
+				Debug.LogError("Timer has not been added to a tracker");
+				return;
+			}
 
-			if (!_knownTimers.ContainsKey(timer.uniqueID))
-				throw new ArgumentException($"Timer {timer.uniqueID} was not found in this tracker");
+			if (!_knownTimers.ContainsKey(timer.uniqueID)) {
+				Debug.LogError($"Timer {timer.uniqueID} was not found in this tracker");
+				return;
+			}
 			
 			timer.isTracked = false;
 			_pendingRemovals.Enqueue(timer);
