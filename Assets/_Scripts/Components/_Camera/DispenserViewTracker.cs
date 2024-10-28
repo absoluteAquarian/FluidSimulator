@@ -1,9 +1,10 @@
 ﻿using AbsoluteCommons.Attributes;
 using AbsoluteCommons.Components;
+using AbsoluteCommons.Utility;
 using UnityEngine;
 
 namespace FluidSimulator.Components {
-	[RequireComponent(typeof(FirstPersonView))]
+	[RequireComponent(typeof(Camera))]
 	public class DispenserViewTracker : MonoBehaviour {
 		private Camera _camera;
 		private FirstPersonView _componentFPV;
@@ -29,6 +30,8 @@ namespace FluidSimulator.Components {
 			}
 		}
 
+		public bool IsViewingDispenser(GameObject obj) => _dispenserTarget.IsObjectOrParentOfObject(obj);
+
 		public void SwitchToDispenser(GameObject dispenser) {
 			if (dispenser == null)
 				return;  // Invalid target, do nothing
@@ -39,9 +42,12 @@ namespace FluidSimulator.Components {
 			_dispenserTarget = dispenser;
 
 			// Disable the FPS camera
-			_componentFPV.ForceLock();
-			_componentCF.enabled = false;
-			_componentCFTTI.enabled = false;
+		//	if (_componentFPV)
+		//		_componentFPV.ForceLock();
+			if (_componentCF)
+				_componentCF.enabled = false;
+			if (_componentCFTTI)
+				_componentCFTTI.enabled = false;
 
 			// Go to the dispenser camera
 			_dispenserCamera = _dispenserTarget.GetComponentInChildren<Camera>();
@@ -60,9 +66,12 @@ namespace FluidSimulator.Components {
 			_dispenserTarget = null;
 
 			// Enable the FPS camera
-			_componentFPV.ReleaseForcedLock();
-			_componentCF.enabled = true;
-			_componentCFTTI.enabled = true;
+		//	if (_componentFPV)
+		//		_componentFPV.ReleaseForcedLock();
+			if (_componentCF)
+				_componentCF.enabled = true;
+			if (_componentCFTTI)
+				_componentCFTTI.enabled = true;
 
 			// Go back to the FPS camera
 			_dispenserCamera = null;

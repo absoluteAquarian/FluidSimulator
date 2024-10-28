@@ -52,6 +52,10 @@ PrefabInstance:
       propertyPath: m_Materials.Array.data[0]
       value: 
       objectReference: {fileID: 2100000, guid: 2572cc2729eb0b74e8d69405e499c6d1, type: 2}
+    - target: {fileID: 4232863132762608163, guid: b692db6e6dab1c9448962ba709ccff28, type: 3}
+      propertyPath: m_Materials.Array.data[0]
+      value: 
+      objectReference: {fileID: 2100000, guid: 18f84a3688d496443b61ad37031ebcfb, type: 2}
     - target: {fileID: 5766571369581144673, guid: b692db6e6dab1c9448962ba709ccff28, type: 3}
       propertyPath: m_Name
       value: DispenserConsoleP1

@@ -29,7 +29,9 @@ namespace AbsoluteCommons.Components {
 		public float sensitivityX = 15f;
 		public float sensitivityY = 15f;
 
-		public float minimumY = -60f;
+		public bool flipVerticalMovement;
+
+		public float minimumY = -60f;  // Vertical rotation
 		public float maximumY = 60f;
 
 		float rotationX = 0f;
@@ -98,6 +100,9 @@ namespace AbsoluteCommons.Components {
 		private void SetRotationX() {
 			float rotation = InputMapper.GetRaw("Mouse Y") * sensitivityY;
 
+			if (flipVerticalMovement)
+				rotation = -rotation;
+
 			_rotationDirectionVertical = Math.Sign(rotation);
 
 			rotationX += rotation;
@@ -111,6 +116,45 @@ namespace AbsoluteCommons.Components {
 
 			rotationY += rotation;
 			rotationY %= 360;
+		}
+
+		public void ClearRotations(bool horizontal = true, bool vertical = true) {
+			if (horizontal)
+				rotationY = 0;
+			if (vertical)
+				rotationX = 0;
+		}
+
+		public Snapshot CreateSnapshot() => new Snapshot(this);
+
+		public void RestoreFromSnapshot(Snapshot snapshot) {
+			axes = snapshot.axes;
+			sensitivityX = snapshot.sensitivityX;
+			sensitivityY = snapshot.sensitivityY;
+			flipVerticalMovement = snapshot.flipVerticalMovement;
+			minimumY = snapshot.minimumY;
+			maximumY = snapshot.maximumY;
+			rotationX = snapshot.rotationX;
+			rotationY = snapshot.rotationY;
+		}
+
+		public readonly struct Snapshot {
+			public readonly Axes axes;
+			public readonly float sensitivityX, sensitivityY;
+			public readonly bool flipVerticalMovement;
+			public readonly float minimumY, maximumY;
+			public readonly float rotationX, rotationY;
+
+			public Snapshot(FirstPersonView fpv) {
+				axes = fpv.axes;
+				sensitivityX = fpv.sensitivityX;
+				sensitivityY = fpv.sensitivityY;
+				flipVerticalMovement = fpv.flipVerticalMovement;
+				minimumY = fpv.minimumY;
+				maximumY = fpv.maximumY;
+				rotationX = fpv.rotationX;
+				rotationY = fpv.rotationY;
+			}
 		}
 	}
 }

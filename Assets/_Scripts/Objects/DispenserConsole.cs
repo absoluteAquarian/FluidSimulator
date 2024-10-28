@@ -18,6 +18,7 @@ namespace FluidSimulator.Objects {
 				_viewingDispenser = false;
 
 				BroadcastMessage(nameof(IDispenserObject.OnDispenserViewExited), SendMessageOptions.DontRequireReceiver);
+				_dispenserObject.BroadcastMessage(nameof(IDispenserObject.OnDispenserViewExited), SendMessageOptions.DontRequireReceiver);
 			}
 		}
 
@@ -29,6 +30,7 @@ namespace FluidSimulator.Objects {
 			_viewingDispenser = true;
 
 			BroadcastMessage(nameof(IDispenserObject.OnDispenserViewEntered), SendMessageOptions.DontRequireReceiver);
+			_dispenserObject.BroadcastMessage(nameof(IDispenserObject.OnDispenserViewEntered), SendMessageOptions.DontRequireReceiver);
 		}
 	}
 }

@@ -7,7 +7,7 @@ using UnityEngine.UIElements.Experimental;
 
 namespace AbsoluteCommons.Components {
 	[AddComponentMenu("Camera-Control/CameraFollow")]
-	[RequireComponent(typeof(FirstPersonView))]
+	[RequireComponent(typeof(FirstPersonView), typeof(Camera))]
 	public class CameraFollow : MonoBehaviour {
 		[Header("Camera Properties")]
 		public GameObject target;
