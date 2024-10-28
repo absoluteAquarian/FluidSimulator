@@ -10,7 +10,9 @@ namespace FluidSimulator.Objects {
 	public class DispenserSpout : NetworkBehaviour, IDispenserObject {
 		[SerializeField] private FluidPool _pool;
 		[SerializeField] private int _particlesPerSecond = 15;
-		[SerializeField] private float spread = 0.1f;
+		[SerializeField] private int _maxParticlesPerTick = 5;
+		[SerializeField] private float _spreadPosition = 0.3f;
+		[SerializeField] private float _spreadVelocity = 0.1f;
 
 		private DynamicObjectPool _particleCreator;
 		private Camera _localCamera;
@@ -72,10 +74,14 @@ namespace FluidSimulator.Objects {
 			if (!base.IsOwner)
 				return;
 
-			if (base.IsServer)
-				SpawnParticle_ActuallySpawn(CreateSpawnMessage());
-			else
-				RequestParticleSpawnServerRpc();
+			int count = Random.Range(1, _maxParticlesPerTick);
+
+			for (int i = 0; i < count; i++) {
+				if (base.IsServer)
+					SpawnParticle_ActuallySpawn(CreateSpawnMessage());
+				else
+					RequestParticleSpawnServerRpc();
+			}
 		}
 
 		[ServerRpc]
@@ -89,7 +95,7 @@ namespace FluidSimulator.Objects {
 				SpawnParticle_ActuallySpawn(CreateSpawnMessage());
 		}
 
-		private ParticleSpawnMessage CreateSpawnMessage() => new ParticleSpawnMessage(_localCamera.transform.position, _localCamera.transform.rotation, _localCamera.transform.forward, spread);
+		private ParticleSpawnMessage CreateSpawnMessage() => new ParticleSpawnMessage(_localCamera.transform.position, _localCamera.transform.rotation, _localCamera.transform.forward, _spreadPosition, _spreadVelocity);
 
 		private void SpawnParticle_ActuallySpawn(ParticleSpawnMessage msg) {
 			GameObject particle = _particleCreator.Get();
@@ -99,7 +105,7 @@ namespace FluidSimulator.Objects {
 				particle.transform.SetPositionAndRotation(msg.position + msg.forward * 0.8f, msg.rotation);
 
 				if (particle.TryGetComponent(out Rigidbody rigidbody)) {
-					Vector3 velocity = msg.forward * 1.5f;
+					Vector3 velocity = msg.forward * 4f;
 					velocity += msg.rotation * new Vector3(msg.spread.x, msg.spread.y, 0f);
 
 					rigidbody.velocity = velocity;
@@ -137,11 +143,11 @@ namespace FluidSimulator.Objects {
 			public Vector3 forward;
 			public Vector2 spread;
 
-			public ParticleSpawnMessage(Vector3 position, Quaternion rotation, Vector3 forward, float spread) {
-				this.position = position;
+			public ParticleSpawnMessage(Vector3 position, Quaternion rotation, Vector3 forward, float spreadPosition, float spreadVelocity) {
+				this.position = position + rotation * new Vector3(Random.Range(-spreadPosition, spreadPosition), Random.Range(-spreadPosition, spreadPosition), 0f);
 				this.rotation = rotation;
 				this.forward = forward;
-				this.spread = new Vector2(Random.Range(-spread, spread), Random.Range(-spread, spread));
+				this.spread = new Vector2(Random.Range(-spreadVelocity, spreadVelocity), Random.Range(-spreadVelocity, spreadVelocity));
 			}
 
 			public void NetworkSerialize<T>(BufferSerializer<T> serializer) where T : IReaderWriter {

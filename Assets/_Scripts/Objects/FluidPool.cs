@@ -85,5 +85,10 @@ namespace FluidSimulator.Objects {
 			if (_fluidCreatorSecondary)
 				_fluidCreatorSecondary.SetPrefab(prefab);
 		}
+
+		private void Update() {
+			// TODO: simulate particle densities
+			// TODO: remove colliders from particles, use Job to simulate spring-like collisions (m * d^2x/dt^2 + c * dx/dt + k * x = 0)
+		}
 	}
 }
