@@ -333,6 +333,85 @@ MeshFilter:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 199848405}
   m_Mesh: {fileID: 10202, guid: 0000000000000000e000000000000000, type: 0}
+--- !u!1 &207739338
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 207739339}
+  - component: {fileID: 207739341}
+  - component: {fileID: 207739340}
+  m_Layer: 5
+  m_Name: Crosshair
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!224 &207739339
+RectTransform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 207739338}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 1713189628}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_AnchorMin: {x: 0.5, y: 0.5}
+  m_AnchorMax: {x: 0.5, y: 0.5}
+  m_AnchoredPosition: {x: 0, y: 0}
+  m_SizeDelta: {x: 44, y: 44}
+  m_Pivot: {x: 0.5, y: 0.5}
+--- !u!114 &207739340
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 207739338}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5f7201a12d95ffc409449d95f23cf332, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_Material: {fileID: 0}
+  m_Color: {r: 0.16666675, g: 1, b: 0, a: 1}
+  m_RaycastTarget: 1
+  m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
+  m_Maskable: 1
+  m_OnCullStateChanged:
+    m_PersistentCalls:
+      m_Calls: []
+  m_FontData:
+    m_Font: {fileID: 10102, guid: 0000000000000000e000000000000000, type: 0}
+    m_FontSize: 40
+    m_FontStyle: 0
+    m_BestFit: 0
+    m_MinSize: 4
+    m_MaxSize: 40
+    m_Alignment: 0
+    m_AlignByGeometry: 0
+    m_RichText: 1
+    m_HorizontalOverflow: 0
+    m_VerticalOverflow: 0
+    m_LineSpacing: 1
+  m_Text: +
+--- !u!222 &207739341
+CanvasRenderer:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 207739338}
+  m_CullTransparentMesh: 1
 --- !u!1 &218219482
 GameObject:
   m_ObjectHideFlags: 0
@@ -831,7 +910,7 @@ RectTransform:
   m_AnchorMin: {x: 0, y: 1}
   m_AnchorMax: {x: 1, y: 1}
   m_AnchoredPosition: {x: 10, y: -80}
-  m_SizeDelta: {x: -120, y: 70}
+  m_SizeDelta: {x: -20, y: 70}
   m_Pivot: {x: 0, y: 1}
 --- !u!114 &288564043
 MonoBehaviour:
@@ -1731,6 +1810,10 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 4648073019358571747, guid: 1e1e0682402b42044a90d68d2a87234b, type: 3}
+      propertyPath: _dispenserObject
+      value: 
+      objectReference: {fileID: 1833863482}
     - target: {fileID: 5658194170872173453, guid: 1e1e0682402b42044a90d68d2a87234b, type: 3}
       propertyPath: m_Name
       value: DispenserConsoleP2
@@ -2176,6 +2259,7 @@ GameObject:
   - component: {fileID: 963194232}
   - component: {fileID: 963194231}
   - component: {fileID: 963194230}
+  - component: {fileID: 963194233}
   m_Layer: 0
   m_Name: Main Camera
   m_TagString: MainCamera
@@ -2328,6 +2412,20 @@ MonoBehaviour:
   sensitivityY: 15
   minimumY: -60
   maximumY: 60
+--- !u!114 &963194233
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 963194225}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 944fe8d371f43854e9968076392e6f53, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _dispenserTarget: {fileID: 0}
+  _dispenserCamera: {fileID: 0}
 --- !u!1001 &1026330463
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -3377,6 +3475,10 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 939949746}
     m_Modifications:
+    - target: {fileID: 1383952000110260101, guid: 926d73e8dac6d3a42a1290de7b2b773f, type: 3}
+      propertyPath: _dispenserObject
+      value: 
+      objectReference: {fileID: 2099443181}
     - target: {fileID: 2103318828283269355, guid: 926d73e8dac6d3a42a1290de7b2b773f, type: 3}
       propertyPath: m_Name
       value: DispenserConsoleP1
@@ -3564,6 +3666,7 @@ RectTransform:
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 805752808}
+  - {fileID: 207739339}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
@@ -3860,6 +3963,11 @@ MeshFilter:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1790624510}
   m_Mesh: {fileID: 10202, guid: 0000000000000000e000000000000000, type: 0}
+--- !u!1 &1833863482 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 3618175874015318916, guid: dc99079b9773eda4dbfea2b25d17afb0, type: 3}
+  m_PrefabInstance: {fileID: 1026330463}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &1876125365
 GameObject:
   m_ObjectHideFlags: 0
@@ -4563,6 +4671,11 @@ Transform:
   - {fileID: 1664999938}
   m_Father: {fileID: 1325197215}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &2099443181 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 775666810011331832, guid: a20f8bb6830b12540b887436ab51b183, type: 3}
+  m_PrefabInstance: {fileID: 1373537215}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &2135482387
 GameObject:
   m_ObjectHideFlags: 0

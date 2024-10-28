@@ -12,6 +12,8 @@ GameObject:
   - component: {fileID: 8450309770820023581}
   - component: {fileID: 3528073573697279300}
   - component: {fileID: 6631568289190740792}
+  - component: {fileID: 4224851343771193361}
+  - component: {fileID: 7503484830127040434}
   m_Layer: 0
   m_Name: Button
   m_TagString: Untagged
@@ -103,8 +105,35 @@ BoxCollider:
   m_ProvidesContacts: 0
   m_Enabled: 1
   serializedVersion: 3
-  m_Size: {x: 1, y: 1, z: 1}
+  m_Size: {x: 0.5, y: 0.5, z: 0.5}
   m_Center: {x: 0, y: 0, z: 0}
+--- !u!114 &4224851343771193361
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2186747084363522720}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0ad700d2f18da9549b90d1c24df76e8d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  activeColor: {r: 0, g: 1, b: 0, a: 1}
+  active: 0
+  _oldActive: 0
+--- !u!114 &7503484830127040434
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2186747084363522720}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8ab1dd0082fa49e4c8e73aea94d4fb39, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &4500150801124267823
 GameObject:
   m_ObjectHideFlags: 0
@@ -197,6 +226,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 2063789472686236737}
+  - component: {fileID: 6774062885462480143}
   m_Layer: 0
   m_Name: DispenserConsole
   m_TagString: Untagged
@@ -222,6 +252,19 @@ Transform:
   - {fileID: 7673589333104840158}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &6774062885462480143
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5766571369581144673}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3e77d028aed6cc344b30e5582ab35542, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _dispenserObject: {fileID: 0}
 --- !u!1 &8318128378990490909
 GameObject:
   m_ObjectHideFlags: 0
@@ -325,5 +368,5 @@ BoxCollider:
   m_ProvidesContacts: 0
   m_Enabled: 1
   serializedVersion: 3
-  m_Size: {x: 1, y: 1, z: 1}
+  m_Size: {x: 1, y: 0.5, z: 1}
   m_Center: {x: 0, y: 0, z: 0}

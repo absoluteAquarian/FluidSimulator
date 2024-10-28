@@ -51,16 +51,16 @@ namespace AbsoluteCommons.Components {
 
 		public bool IsLocked => _lockedCamera;
 
+		private bool _lockedButNotReally;
+
 		// Update is called once per frame
 		void Update() {
-			if (InputMapper.IsTriggered(KeyCode.Escape)) {
-				_lockedCamera = !_lockedCamera;
-				Cursor.lockState = _lockedCamera ? CursorLockMode.Locked : CursorLockMode.None;
-			}
+			if (InputMapper.IsTriggered(KeyCode.Escape))
+				ToggleLock();
 
 			Cursor.visible = !_lockedCamera;
 
-			if (!_lockedCamera) {
+			if (!_lockedCamera || _lockedButNotReally) {
 				_rotationDirectionHorizontal = 0;
 				_rotationDirectionVertical = 0;
 				return;
@@ -79,6 +79,21 @@ namespace AbsoluteCommons.Components {
 					break;
 			}
 		}
+
+		public void SetLocked(bool locked) {
+			if (locked == _lockedCamera)
+				return;
+
+			_lockedCamera = locked;
+			Cursor.lockState = _lockedCamera ? CursorLockMode.Locked : CursorLockMode.None;
+			Cursor.visible = !_lockedCamera;
+		}
+
+		public void ToggleLock() => SetLocked(!_lockedCamera);
+
+		public void ForceLock() => _lockedButNotReally = true;
+
+		public void ReleaseForcedLock() => _lockedButNotReally = false;
 
 		private void SetRotationX() {
 			float rotation = InputMapper.GetRaw("Mouse Y") * sensitivityY;
