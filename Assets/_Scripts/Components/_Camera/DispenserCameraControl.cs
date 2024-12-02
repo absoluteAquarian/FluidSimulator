@@ -1,9 +1,10 @@
 ﻿using AbsoluteCommons.Components;
+using Unity.Netcode;
 using UnityEngine;
 
 namespace FluidSimulator.Components {
 	[RequireComponent(typeof(Camera))]
-	public class DispenserCameraControl : MonoBehaviour, IDispenserObject {
+	public class DispenserCameraControl : NetworkBehaviour, IDispenserObject {
 		private FirstPersonView _componentFPV;
 		private DispenserViewTracker _componentDVT;
 
@@ -28,11 +29,34 @@ namespace FluidSimulator.Components {
 
 				// Ensure that the Z-axis is not rotated for both objects
 				AdjustTransform(transform.parent, target);
-				AdjustTransform(Camera.main.transform, target);
+
+				if (base.IsOwner)
+					AdjustTransform_Impl(Camera.main.transform, target);
 			}
 		}
 
-		private static void AdjustTransform(Transform transform, Quaternion target) {
+		private void AdjustTransform(Transform transform, Quaternion target) {
+			if (base.IsServer)
+				AdjustTransform_Impl(transform, target);
+			else
+				AdjustTransformServerRpc(transform.gameObject, target);
+		}
+
+		[ServerRpc(RequireOwnership = false)]
+		private void AdjustTransformServerRpc(NetworkObjectReference objRef, Quaternion target) {
+			AdjustTransformClientRpc(objRef, target);
+		}
+		
+		[ClientRpc]
+		private void AdjustTransformClientRpc(NetworkObjectReference objRef, Quaternion target) {
+			NetworkObject obj = objRef;
+			if (!obj)
+				return;
+
+			AdjustTransform_Impl(obj.transform, target);
+		}
+
+		private static void AdjustTransform_Impl(Transform transform, Quaternion target) {
 			// Ensure that the Z-axis is not rotated
 			float z = transform.eulerAngles.z;
 			transform.rotation = target;

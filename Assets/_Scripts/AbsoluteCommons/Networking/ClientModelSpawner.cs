@@ -31,6 +31,9 @@ namespace AbsoluteCommons.Networking {
 			// obj.AddComponent<DeferredSpawning>();  // Ensure that child objects are also spawned
 			netObj.SpawnAsPlayerObject(clientID, true);
 
+			// Set the client position
+			obj.transform.SetPositionAndRotation(gameObject.transform.position, gameObject.transform.rotation);
+
 			SetClientPositionClientRpc(netObj);
 		}
 

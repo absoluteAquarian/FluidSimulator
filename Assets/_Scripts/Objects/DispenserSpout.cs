@@ -40,7 +40,8 @@ namespace FluidSimulator.Objects {
 		}
 
 		private void Update() {
-			if (!_active || !base.IsOwner)
+			// NOTE: TowerDefense had clientside projectile spawning, but FluidSimulator has serverside particle spawning instead.
+			if (!_active /* || !base.IsOwner */)
 				return;
 
 			if (CanSpawnParticles())
@@ -59,6 +60,8 @@ namespace FluidSimulator.Objects {
 		private void SpawnParticle() {
 			_sprayCooldown = true;
 
+			SpawnParticle_HandleNetworking();
+
 			if (!_spraying) {
 				// Create a looping timer
 				Timer timer = Timer.CreateCountdown(resetTimersAction, 1f / _particlesPerSecond, repeating: true);
@@ -71,8 +74,11 @@ namespace FluidSimulator.Objects {
 		}
 
 		private void SpawnParticle_HandleNetworking() {
+			// NOTE: TowerDefense had clientside projectile spawning, but FluidSimulator has serverside particle spawning instead.
+			/*
 			if (!base.IsOwner)
 				return;
+			*/
 
 			int count = Random.Range(1, _maxParticlesPerTick);
 
@@ -84,16 +90,19 @@ namespace FluidSimulator.Objects {
 			}
 		}
 
-		[ServerRpc]
+		[ServerRpc(RequireOwnership = false)]
 		private void RequestParticleSpawnServerRpc() {
-			SpawnParticleClientRpc();
+			SpawnParticle_ActuallySpawn(CreateSpawnMessage());
 		}
 
+		// NOTE: TowerDefense had clientside projectile spawning, but FluidSimulator has serverside particle spawning instead.
+		/*
 		[ClientRpc]
 		private void SpawnParticleClientRpc() {
 			if (!base.IsOwner)
 				SpawnParticle_ActuallySpawn(CreateSpawnMessage());
 		}
+		*/
 
 		private ParticleSpawnMessage CreateSpawnMessage() => new ParticleSpawnMessage(_localCamera.transform.position, _localCamera.transform.rotation, _localCamera.transform.forward, _spreadPosition, _spreadVelocity);
 

@@ -1,4 +1,5 @@
 ﻿using AbsoluteCommons.Objects;
+using System.Text;
 using Unity.Netcode;
 using UnityEngine;
 
@@ -54,6 +55,18 @@ namespace AbsoluteCommons.Utility {
 
 			component = null;
 			return false;
+		}
+
+		public static string GetHierarchyPath(this GameObject obj) {
+			StringBuilder sb = new StringBuilder(obj.name);
+			Transform current = obj.transform;
+
+			while (current.parent) {
+				current = current.parent;
+				sb.Insert(0, '/').Insert(0, current.name);
+			}
+
+			return sb.ToString();
 		}
 	}
 }

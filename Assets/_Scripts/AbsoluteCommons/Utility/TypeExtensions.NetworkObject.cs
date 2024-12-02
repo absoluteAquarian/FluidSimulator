@@ -74,7 +74,7 @@ namespace AbsoluteCommons.Utility {
 			}
 		}
 
-		[ServerRpc]
+		[ServerRpc(RequireOwnership = false)]
 		private static void EnsureParentConnectionServerRpc(NetworkObjectReference parentRef, NetworkObjectReference childRef) {
 			NetworkObject parentNetworkObject = parentRef;
 			if (!parentNetworkObject)

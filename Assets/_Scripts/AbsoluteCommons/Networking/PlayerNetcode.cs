@@ -38,7 +38,7 @@ namespace AbsoluteCommons.Networking {
 				TransmitStateServerRpc(state);
 		}
 
-		[ServerRpc]
+		[ServerRpc(RequireOwnership = false)]
 		private void TransmitStateServerRpc(PlayerCameraState state) {
 			_cameraState.Value = state;
 		}

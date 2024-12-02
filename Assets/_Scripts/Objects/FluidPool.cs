@@ -66,26 +66,6 @@ namespace FluidSimulator.Objects {
 			}
 		}
 
-		public void SetPrimaryFluidPrefab(GameObject prefab) {
-			if (_fluidCreatorPrimary)
-				_fluidCreatorPrimary.SetPrefab(prefab);
-		}
-
-		public void SetPrimaryFluidPrefab<T>(T prefab) where T : Component {
-			if (_fluidCreatorPrimary)
-				_fluidCreatorPrimary.SetPrefab(prefab);
-		}
-
-		public void SetSecondaryFluidPrefab(GameObject prefab) {
-			if (_fluidCreatorSecondary)
-				_fluidCreatorSecondary.SetPrefab(prefab);
-		}
-
-		public void SetSecondaryFluidPrefab<T>(T prefab) where T : Component {
-			if (_fluidCreatorSecondary)
-				_fluidCreatorSecondary.SetPrefab(prefab);
-		}
-
 		private void Update() {
 			// TODO: simulate particle densities
 			// TODO: remove colliders from particles, use Job to simulate spring-like collisions (m * d^2x/dt^2 + c * dx/dt + k * x = 0)

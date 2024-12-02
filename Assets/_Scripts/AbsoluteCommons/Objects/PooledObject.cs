@@ -28,7 +28,7 @@ namespace AbsoluteCommons.Objects {
 				component.EnsureConnectionServerRpc(obj, pool.gameObject, index);
 		}
 
-		[ServerRpc]
+		[ServerRpc(RequireOwnership = false)]
 		private void EnsureConnectionServerRpc(NetworkObjectReference pooledObjectRef, NetworkObjectReference poolRef, int index) {
 			GameObject pooledObj = pooledObjectRef;
 			if (!pooledObj)

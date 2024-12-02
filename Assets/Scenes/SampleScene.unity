@@ -2549,7 +2549,15 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 2227409472888793622, guid: dc99079b9773eda4dbfea2b25d17afb0, type: 3}
       propertyPath: _showPoolInHierarchy
-      value: 0
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 2230436203718916061, guid: dc99079b9773eda4dbfea2b25d17afb0, type: 3}
+      propertyPath: GlobalObjectIdHash
+      value: 1103257289
+      objectReference: {fileID: 0}
+    - target: {fileID: 2230436203718916061, guid: dc99079b9773eda4dbfea2b25d17afb0, type: 3}
+      propertyPath: InScenePlacedSourceGlobalObjectIdHash
+      value: 2599199919
       objectReference: {fileID: 0}
     - target: {fileID: 2381601507218796702, guid: dc99079b9773eda4dbfea2b25d17afb0, type: 3}
       propertyPath: GlobalObjectIdHash
@@ -2562,6 +2570,14 @@ PrefabInstance:
     - target: {fileID: 3618175874015318916, guid: dc99079b9773eda4dbfea2b25d17afb0, type: 3}
       propertyPath: m_Name
       value: FluidDispenserP2
+      objectReference: {fileID: 0}
+    - target: {fileID: 4396589644808763626, guid: dc99079b9773eda4dbfea2b25d17afb0, type: 3}
+      propertyPath: GlobalObjectIdHash
+      value: 3975776918
+      objectReference: {fileID: 0}
+    - target: {fileID: 4396589644808763626, guid: dc99079b9773eda4dbfea2b25d17afb0, type: 3}
+      propertyPath: InScenePlacedSourceGlobalObjectIdHash
+      value: 2599199919
       objectReference: {fileID: 0}
     - target: {fileID: 5202810774129517375, guid: dc99079b9773eda4dbfea2b25d17afb0, type: 3}
       propertyPath: m_TargetTexture
@@ -2607,6 +2623,14 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 180
       objectReference: {fileID: 0}
+    - target: {fileID: 8904416092649883381, guid: dc99079b9773eda4dbfea2b25d17afb0, type: 3}
+      propertyPath: GlobalObjectIdHash
+      value: 361670378
+      objectReference: {fileID: 0}
+    - target: {fileID: 8904416092649883381, guid: dc99079b9773eda4dbfea2b25d17afb0, type: 3}
+      propertyPath: InScenePlacedSourceGlobalObjectIdHash
+      value: 2599199919
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -2626,6 +2650,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1039339851}
+  - component: {fileID: 1039339852}
   m_Layer: 0
   m_Name: Dispensers
   m_TagString: Untagged
@@ -2650,6 +2675,27 @@ Transform:
   - {fileID: 1026330464}
   m_Father: {fileID: 1427473999}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1039339852
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1039339850}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d5a57f767e5e46a458fc5d3c628d0cbb, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  GlobalObjectIdHash: 850167498
+  InScenePlacedSourceGlobalObjectIdHash: 0
+  AlwaysReplicateAsRoot: 0
+  SynchronizeTransform: 1
+  ActiveSceneSynchronization: 0
+  SceneMigrationSynchronization: 1
+  SpawnWithObservers: 1
+  DontDestroyWithOwner: 0
+  AutoObjectParentSync: 1
 --- !u!1 &1044838823
 GameObject:
   m_ObjectHideFlags: 0
@@ -3322,6 +3368,18 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 1039339851}
     m_Modifications:
+    - target: {fileID: 183756906427850685, guid: a20f8bb6830b12540b887436ab51b183, type: 3}
+      propertyPath: UseUnreliableDeltas
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 429598914835367830, guid: a20f8bb6830b12540b887436ab51b183, type: 3}
+      propertyPath: GlobalObjectIdHash
+      value: 1067702962
+      objectReference: {fileID: 0}
+    - target: {fileID: 429598914835367830, guid: a20f8bb6830b12540b887436ab51b183, type: 3}
+      propertyPath: InScenePlacedSourceGlobalObjectIdHash
+      value: 1483895529
+      objectReference: {fileID: 0}
     - target: {fileID: 775666810011331832, guid: a20f8bb6830b12540b887436ab51b183, type: 3}
       propertyPath: m_Name
       value: FluidDispenserP1
@@ -3342,15 +3400,31 @@ PrefabInstance:
       propertyPath: InScenePlacedSourceGlobalObjectIdHash
       value: 1483895529
       objectReference: {fileID: 0}
+    - target: {fileID: 2738741609730230433, guid: a20f8bb6830b12540b887436ab51b183, type: 3}
+      propertyPath: GlobalObjectIdHash
+      value: 1422703343
+      objectReference: {fileID: 0}
+    - target: {fileID: 2738741609730230433, guid: a20f8bb6830b12540b887436ab51b183, type: 3}
+      propertyPath: InScenePlacedSourceGlobalObjectIdHash
+      value: 1483895529
+      objectReference: {fileID: 0}
     - target: {fileID: 2746270046110815594, guid: a20f8bb6830b12540b887436ab51b183, type: 3}
       propertyPath: _showPoolInHierarchy
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 4291154549174488816, guid: a20f8bb6830b12540b887436ab51b183, type: 3}
       propertyPath: GlobalObjectIdHash
       value: 1902785203
       objectReference: {fileID: 0}
     - target: {fileID: 4291154549174488816, guid: a20f8bb6830b12540b887436ab51b183, type: 3}
+      propertyPath: InScenePlacedSourceGlobalObjectIdHash
+      value: 1483895529
+      objectReference: {fileID: 0}
+    - target: {fileID: 4856912643919739273, guid: a20f8bb6830b12540b887436ab51b183, type: 3}
+      propertyPath: GlobalObjectIdHash
+      value: 12530522
+      objectReference: {fileID: 0}
+    - target: {fileID: 4856912643919739273, guid: a20f8bb6830b12540b887436ab51b183, type: 3}
       propertyPath: InScenePlacedSourceGlobalObjectIdHash
       value: 1483895529
       objectReference: {fileID: 0}

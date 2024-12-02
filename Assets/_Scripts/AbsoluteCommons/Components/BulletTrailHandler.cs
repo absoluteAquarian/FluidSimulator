@@ -57,7 +57,7 @@ namespace AbsoluteCommons.Components {
 				InternalCreateTrailServerRpc(start, end);
 		}
 
-		[ServerRpc]
+		[ServerRpc(RequireOwnership = false)]
 		private void InternalCreateTrailServerRpc(Vector3 start, Vector3 end) {
 			TrailRenderer trail = _trailPool.Get<TrailRenderer>();
 			if (!trail)

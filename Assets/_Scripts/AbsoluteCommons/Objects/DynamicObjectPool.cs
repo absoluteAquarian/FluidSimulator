@@ -14,7 +14,7 @@ namespace AbsoluteCommons.Objects {
 
 		[SerializeField, ReadOnly] private List<GameObject> _pool;
 		private BitArray _dirty;
-		private GameObject _container;
+		[SerializeField, ReadOnly] private GameObject _container;
 		private int _index;
 
 		private static GameObject _visibleObjectContainer;
@@ -22,6 +22,11 @@ namespace AbsoluteCommons.Objects {
 		private void Awake() {
 			_pool = new List<GameObject>(_initialCapacity);
 			_dirty = new BitArray(_initialCapacity, true);
+		}
+
+		private void Update() {
+			if (!_container)
+				_container = gameObject.FindChildRecursively("Dynamic Pool");
 		}
 
 		public override void OnNetworkSpawn() {
@@ -32,7 +37,9 @@ namespace AbsoluteCommons.Objects {
 				_container.GetComponent<NetworkObject>().Spawn(true);
 				
 				_container.transform.SetLocalPositionAndRotation(Vector3.zero, Quaternion.identity);
-				_container.transform.SetParent(transform, false);
+				_container.GetComponent<NetworkObject>().TrySetParent(transform, false);
+
+				Debug.Log($"[DynamicObjectPool] [OnNetworkSpawn] Initialized _container for \"{gameObject.GetHierarchyPath()}\"");
 
 				// Make a global pool for objects in the world
 				// This is just so they don't clutter the scene list
@@ -42,6 +49,8 @@ namespace AbsoluteCommons.Objects {
 					_visibleObjectContainer.GetComponent<NetworkObject>().Spawn(true);
 
 					_visibleObjectContainer.transform.SetPositionAndRotation(Vector3.zero, Quaternion.identity);
+
+					Debug.Log($"[DynamicObjectPool] [OnNetworkSpawn] Initialized _visibleObjectContainer for \"{gameObject.GetHierarchyPath()}\"");
 				}
 
 				ContainerSpawnClientRpc(_container, _visibleObjectContainer);
@@ -53,12 +62,19 @@ namespace AbsoluteCommons.Objects {
 		[ClientRpc]
 		private void ContainerSpawnClientRpc(NetworkObjectReference containerRef, NetworkObjectReference visibleObjectContainerRef) {
 			_container = containerRef;
-			if (!_container)
-				Debug.LogError("[DynamicObjectPool] [ContainerSpawnClientRpc] Read object reference for _container is null");
+			if (_container) {
+				_container.transform.SetLocalPositionAndRotation(Vector3.zero, Quaternion.identity);
+				_container.GetComponent<NetworkObject>().TrySetParent(transform, false);
+			} else
+				Debug.LogError($"[DynamicObjectPool] [ContainerSpawnClientRpc] Read object reference for _container is null for \"{gameObject.GetHierarchyPath()}\"");
 
 			_visibleObjectContainer = visibleObjectContainerRef;
-			if (!_visibleObjectContainer)
-				Debug.LogError("[DynamicObjectPool] [ContainerSpawnClientRpc] Read object reference for _visibleObjectContainer is null");
+			if (_visibleObjectContainer)
+				_visibleObjectContainer.transform.SetPositionAndRotation(Vector3.zero, Quaternion.identity);
+			else
+				Debug.LogError($"[DynamicObjectPool] [ContainerSpawnClientRpc] Read object reference for _visibleObjectContainer is null for \"{gameObject.GetHierarchyPath()}\"");
+
+			Debug.Log($"[DynamicObjectPool] [ContainerSpawnClientRpc] Initialized _container and _visibleObjectContainer for \"{gameObject.GetHierarchyPath()}\"");
 		}
 
 		public void SetPrefab(GameObject prefab) {
@@ -83,6 +99,12 @@ namespace AbsoluteCommons.Objects {
 				return null;
 			}
 
+			if (!_container)
+				_container = gameObject.FindChildRecursively("Dynamic Pool");
+
+			if (!_visibleObjectContainer)
+				Debug.LogError("[DynamicObjectPool] [Get] _visibleObjectContainer is null");
+
 			for (int i = 0; i < _pool.Count; i++) {
 				_index = (_index + 1) % _pool.Count;
 
@@ -93,7 +115,11 @@ namespace AbsoluteCommons.Objects {
 
 			// Reached capacity, create a new object
 			_index = _pool.Count;
-			return PrepareObject(AddNewObject());
+			GameObject spawned = PrepareObject(AddNewObject());
+
+			Debug.Log($"[DynamicObjectPool] [Get] Initialized object \"{spawned.GetHierarchyPath()}\" for requesting pool \"{gameObject.GetHierarchyPath()}\"");
+
+			return spawned;
 		}
 
 		private GameObject PrepareObject(GameObject obj) {
@@ -115,7 +141,7 @@ namespace AbsoluteCommons.Objects {
 			netObj.SmartSpawn(true, false);
 
 			obj.SetActive(true);
-			obj.transform.SetParent(Application.isEditor ? _visibleObjectContainer.transform : null, true);
+			netObj.TrySetParent(Application.isEditor ? _visibleObjectContainer?.transform : null, true);
 
 			netObj.SyncHierarchy(true);
 
@@ -125,7 +151,7 @@ namespace AbsoluteCommons.Objects {
 				AddNewObjectClientRpc(obj, _index);
 			}
 
-			PrepareObjectClientRpc(_index);
+			PrepareObjectClientRpc(obj);
 
 			PooledObject.EnsureConnection(obj, this, _index);
 
@@ -133,10 +159,11 @@ namespace AbsoluteCommons.Objects {
 		}
 
 		[ClientRpc]
-		private void PrepareObjectClientRpc(int index) {
-			GameObject obj = _pool[index];
-
+		private void PrepareObjectClientRpc(NetworkObjectReference objRef) {
+			GameObject obj = objRef;
 			obj.SetActive(true);
+
+			Debug.Log($"[DynamicObjectPool] [PrepareObjectClientRpc] Received message for object \"{obj.GetHierarchyPath()}\" in pool \"{gameObject.GetHierarchyPath()}\"");
 		}
 
 		private GameObject AddNewObject() {
@@ -154,10 +181,13 @@ namespace AbsoluteCommons.Objects {
 			if (!obj)
 				return;
 
-			if (index < _pool.Count)
-				_pool[index] = obj;
-			else
-				_pool.Add(obj);
+			if (index >= _pool.Count) {
+				// Pad the list with empty objects, then add the new object
+				while (_pool.Count <= index)
+					_pool.Add(null);
+			}
+
+			_pool[index] = obj;
 
 			if (_dirty.Length <= index)
 				_dirty.Length = index + 1;
@@ -173,10 +203,12 @@ namespace AbsoluteCommons.Objects {
 				return null;
 			}
 
+			Debug.Log($"[DynamicObjectPool] [Create] Created new object \"{obj.GetHierarchyPath()}\" for pool \"{gameObject.GetHierarchyPath()}\"");
+
 			return obj;
 		}
 
-		[ServerRpc]
+		[ServerRpc(RequireOwnership = false)]
 		private void ResetObjectStateServerRpc(int index) {
 			ResetObjectState(_pool[index]);
 		}
@@ -225,8 +257,10 @@ namespace AbsoluteCommons.Objects {
 			if (serializer.IsWriter) {
 				var writer = serializer.GetFastBufferWriter();
 
+				/*
 				writer.WriteValueSafe(new NetworkObjectReference(_container));
 				writer.WriteValueSafe(new NetworkObjectReference(_visibleObjectContainer));
+				*/
 
 				writer.WriteValueSafe(_pool.Count);
 
@@ -245,19 +279,25 @@ namespace AbsoluteCommons.Objects {
 				}
 
 				writer.WriteValueSafe(_index);
+
+				Debug.Log($"[DynamicObjectPool] [OnSynchronize] Object data written to synchronization stream for \"{gameObject.GetHierarchyPath()}\"");
 			} else {
 				var reader = serializer.GetFastBufferReader();
 
+				/*
 				reader.ReadValueSafe(out NetworkObjectReference containerRef);
 				reader.ReadValueSafe(out NetworkObjectReference visibleObjectContainerRef);
 
-				_container = containerRef;
-				if (!_container)
-					Debug.LogError("[DynamicObjectPool] [OnSynchronize] Read object reference for _container is null");
+				if (!(GameObject)containerRef)
+					Debug.LogError($"[DynamicObjectPool] [OnSynchronize] Read object reference for _container is null for \"{gameObject.GetHierarchyPath()}\"");
+				else
+					_container = containerRef;
 
-				_visibleObjectContainer = visibleObjectContainerRef;
-				if (!_visibleObjectContainer)
-					Debug.LogError("[DynamicObjectPool] [OnSynchronize] Read object reference for _visibleObjectContainer is null");
+				if (!(GameObject)visibleObjectContainerRef)
+					Debug.LogError($"[DynamicObjectPool] [OnSynchronize] Read object reference for _visibleObjectContainer is null for \"{gameObject.GetHierarchyPath()}\"");
+				else
+					_visibleObjectContainer = visibleObjectContainerRef;
+				*/
 
 				reader.ReadValueSafe(out int poolCount);
 				_pool = new List<GameObject>(poolCount);
@@ -284,6 +324,8 @@ namespace AbsoluteCommons.Objects {
 				}
 
 				reader.ReadValueSafe(out _index);
+
+				Debug.Log($"[DynamicObjectPool] [OnSynchronize] Object data read from synchronization stream for \"{gameObject.GetHierarchyPath()}\"");
 			}
 		}
 	}

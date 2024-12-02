@@ -1,4 +1,5 @@
-﻿using FluidSimulator.Components;
+﻿using AbsoluteCommons.Attributes;
+using FluidSimulator.Components;
 using FluidSimulator.Player;
 using UnityEngine;
 
@@ -7,7 +8,7 @@ namespace FluidSimulator.Objects {
 		private DispenserConsole _console;
 		private ChangeMaterialOnActivate _changeMaterial;
 
-		private GameObject _whoPressedMe;
+		[SerializeField, ReadOnly] private GameObject _whoPressedMe;
 
 		private void Awake() {
 			_console = GetComponentInParent<DispenserConsole>();
@@ -23,8 +24,11 @@ namespace FluidSimulator.Objects {
 			_whoPressedMe = interaction.actor;
 
 			// Lock control from the player
-			if (_whoPressedMe.TryGetComponent(out PlayerMovement movement))
+			if (_whoPressedMe.TryGetComponent(out PlayerMovement movement)) {
 				movement.enabled = false;
+
+				Debug.Log($"[DispenserButton] [OnInteract] Player movement for object \"{_whoPressedMe.name}\" has been disabled");
+			}
 		}
 
 		public void OnDispenserViewEntered() { }
@@ -33,8 +37,13 @@ namespace FluidSimulator.Objects {
 			_changeMaterial.SetActive(false);
 
 			// Restore control to the player
-			if (_whoPressedMe && _whoPressedMe.TryGetComponent(out PlayerMovement movement))
+			if (_whoPressedMe && _whoPressedMe.TryGetComponent(out PlayerMovement movement)) {
 				movement.enabled = true;
+
+				Debug.Log($"[DispenserButton] [OnDispenserViewExited] Player movement for object \"{_whoPressedMe.name}\" has been re-enabled");
+			}
+
+			_whoPressedMe = null;
 		}
 	}
 }
