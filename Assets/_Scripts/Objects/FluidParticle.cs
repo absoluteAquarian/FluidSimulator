@@ -2,6 +2,7 @@
 
 namespace FluidSimulator.Objects {
 	public class FluidParticle : MonoBehaviour {
-		[SerializeField] public float density;
+		public float mass = 1f;
+		public float radius = 0.1f;
 	}
 }

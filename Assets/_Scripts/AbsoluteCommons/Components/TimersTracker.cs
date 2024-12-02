@@ -32,7 +32,7 @@ namespace AbsoluteCommons.Components {
 
 		public void AddTimer(Timer timer) {
 			if (timer.isTracked) {
-				Debug.LogError("Timer has already been added to a tracker");
+				Debug.LogWarning("Timer has already been added to a tracker");
 				return;
 			}
 			
@@ -55,12 +55,12 @@ namespace AbsoluteCommons.Components {
 
 		public void RemoveTimer(Timer timer) {
 			if (!timer.isTracked) {
-				Debug.LogError("Timer has not been added to a tracker");
+				Debug.LogWarning("Timer has not been added to a tracker");
 				return;
 			}
 
 			if (!_knownTimers.ContainsKey(timer.uniqueID)) {
-				Debug.LogError($"Timer {timer.uniqueID} was not found in this tracker");
+				Debug.LogWarning($"Timer {timer.uniqueID} was not found in this tracker");
 				return;
 			}
 			

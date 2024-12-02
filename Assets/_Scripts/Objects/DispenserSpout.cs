@@ -82,17 +82,15 @@ namespace FluidSimulator.Objects {
 
 			int count = Random.Range(1, _maxParticlesPerTick);
 
-			for (int i = 0; i < count; i++) {
-				if (base.IsServer)
-					SpawnParticle_ActuallySpawn(CreateSpawnMessage());
-				else
-					RequestParticleSpawnServerRpc();
-			}
+			if (base.IsServer)
+				SpawnParticle_ActuallySpawn(CreateSpawnMessage(), count);
+			else
+				RequestParticleSpawnServerRpc(count);
 		}
 
 		[ServerRpc(RequireOwnership = false)]
-		private void RequestParticleSpawnServerRpc() {
-			SpawnParticle_ActuallySpawn(CreateSpawnMessage());
+		private void RequestParticleSpawnServerRpc(int count) {
+			SpawnParticle_ActuallySpawn(CreateSpawnMessage(), count);
 		}
 
 		// NOTE: TowerDefense had clientside projectile spawning, but FluidSimulator has serverside particle spawning instead.
@@ -106,18 +104,16 @@ namespace FluidSimulator.Objects {
 
 		private ParticleSpawnMessage CreateSpawnMessage() => new ParticleSpawnMessage(_localCamera.transform.position, _localCamera.transform.rotation, _localCamera.transform.forward, _spreadPosition, _spreadVelocity);
 
-		private void SpawnParticle_ActuallySpawn(ParticleSpawnMessage msg) {
-			GameObject particle = _particleCreator.Get();
+		private void SpawnParticle_ActuallySpawn(ParticleSpawnMessage msg, int count) {
+			for (int i = 0; i < count; i++) {
+				GameObject particle = _particleCreator.Get();
 
-			if (particle) {
-				// Spawn was successful
-				particle.transform.SetPositionAndRotation(msg.position + msg.forward * 0.8f, msg.rotation);
+				if (particle) {
+					// Spawn was successful
+					particle.transform.SetPositionAndRotation(msg.GetRandomPosition(), Quaternion.identity);
 
-				if (particle.TryGetComponent(out Rigidbody rigidbody)) {
-					Vector3 velocity = msg.forward * 4f;
-					velocity += msg.rotation * new Vector3(msg.spread.x, msg.spread.y, 0f);
-
-					rigidbody.velocity = velocity;
+					if (particle.TryGetComponent(out ParallelPhysics physics))
+						physics.velocity = msg.GetRandomVelocity();
 				}
 			}
 		}
@@ -150,14 +146,22 @@ namespace FluidSimulator.Objects {
 			public Vector3 position;
 			public Quaternion rotation;
 			public Vector3 forward;
-			public Vector2 spread;
+			public float spreadPosition;
+			public float spreadVelocity;
 
 			public ParticleSpawnMessage(Vector3 position, Quaternion rotation, Vector3 forward, float spreadPosition, float spreadVelocity) {
-				this.position = position + rotation * new Vector3(Random.Range(-spreadPosition, spreadPosition), Random.Range(-spreadPosition, spreadPosition), 0f);
+				this.position = position;
 				this.rotation = rotation;
 				this.forward = forward;
-				this.spread = new Vector2(Random.Range(-spreadVelocity, spreadVelocity), Random.Range(-spreadVelocity, spreadVelocity));
+				this.spreadPosition = spreadPosition;
+				this.spreadVelocity = spreadVelocity;
 			}
+
+			public Vector3 GetRandomPosition()
+				=> position + forward * 0.3f + rotation * new Vector3(Random.Range(-spreadPosition, spreadPosition), Random.Range(-spreadPosition, spreadPosition), Random.Range(0f, spreadPosition + 2f));
+
+			public Vector3 GetRandomVelocity()
+				=> forward * 4f + rotation * new Vector3(Random.Range(-spreadVelocity, spreadVelocity), Random.Range(-spreadVelocity, spreadVelocity), Random.Range(0f, spreadVelocity + 2f));
 
 			public void NetworkSerialize<T>(BufferSerializer<T> serializer) where T : IReaderWriter {
 				if (serializer.IsWriter) {
@@ -166,14 +170,16 @@ namespace FluidSimulator.Objects {
 					writer.WriteValueSafe(position);
 					writer.WriteValueSafe(rotation);
 					writer.WriteValueSafe(forward);
-					writer.WriteValueSafe(spread);
+					writer.WriteValueSafe(spreadPosition);
+					writer.WriteValueSafe(spreadVelocity);
 				} else {
 					var reader = serializer.GetFastBufferReader();
 
 					reader.ReadValueSafe(out position);
 					reader.ReadValueSafe(out rotation);
 					reader.ReadValueSafe(out forward);
-					reader.ReadValueSafe(out spread);
+					reader.ReadValueSafe(out spreadPosition);
+					reader.ReadValueSafe(out spreadVelocity);
 				}
 			}
 		}

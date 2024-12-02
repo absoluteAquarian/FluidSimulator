@@ -19,6 +19,8 @@ namespace AbsoluteCommons.Objects {
 
 		private static GameObject _visibleObjectContainer;
 
+		public int Count => _pool.Count;
+
 		private void Awake() {
 			_pool = new List<GameObject>(_initialCapacity);
 			_dirty = new BitArray(_initialCapacity, true);
@@ -240,6 +242,25 @@ namespace AbsoluteCommons.Objects {
 		}
 
 		public void Return<T>(T component) where T : Component => Return(component.gameObject);
+
+		public Transform[] ExtractObjectTransforms() {
+			Transform[] transforms = new Transform[_pool.Count];
+
+			for (int i = 0; i < _pool.Count; i++) {
+				GameObject obj = _pool[i];
+				if (obj)
+					transforms[i] = obj.transform;
+			}
+
+			return transforms;
+		}
+
+		public IEnumerable<Transform> ExtractObjectTransforms(int start) {
+			for (int i = start; i < _pool.Count; i++) {
+				GameObject obj = _pool[i];
+				yield return obj ? obj.transform : null;
+			}
+		}
 
 		public override void OnNetworkDespawn() {
 			// Force all objects to despawn

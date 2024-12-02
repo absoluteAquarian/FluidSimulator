@@ -1057,12 +1057,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0ff1db4a65c200041b4f636462945ccf, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  database: {fileID: 11400000, guid: b10740908b691324890c127ed4bd168a, type: 2}
   _fluidCreatorPrimary: {fileID: 0}
-  _initialPrimaryFluidPrefab: {fileID: 2903259818984371677, guid: 2bc8916add085524eb0b74a6b7465bc7, type: 3}
+  _primaryFluid: 0
   _dispenserPrimary: {fileID: 2099443181}
   _dispenserPrimaryTimers: {fileID: 0}
   _fluidCreatorSecondary: {fileID: 0}
-  _initialSecondaryFluidPrefab: {fileID: 2903259818984371677, guid: 2bc8916add085524eb0b74a6b7465bc7, type: 3}
+  _secondaryFluid: 1
   _dispenserSecondary: {fileID: 1833863482}
   _dispenserSecondaryTimers: {fileID: 0}
 --- !u!1 &489749472
@@ -2430,13 +2431,13 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 963194225}
   serializedVersion: 2
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 1, z: -10}
+  m_LocalRotation: {x: 0.13052616, y: 0, z: 0, w: 0.9914449}
+  m_LocalPosition: {x: 0, y: 1, z: -25}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_LocalEulerAnglesHint: {x: 15, y: 0, z: 0}
 --- !u!114 &963194230
 MonoBehaviour:
   m_ObjectHideFlags: 0
