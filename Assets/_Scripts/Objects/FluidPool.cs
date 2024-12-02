@@ -130,10 +130,9 @@ namespace FluidSimulator.Objects {
 		private void InitOrResizeParticleArrays(int total, int prevTotal) {
 			// Update the particle data array
 			if (numParticles < 0 || total >= numParticles) {
-				int length = numParticles;
-				do {
-					length = length > 0 ? length * 2 : 128;
-				} while (length < total);
+				int length = numParticles > 0 ? numParticles : 128;
+				while (length < total)
+					length *= 2;
 				
 				NativeArray<ParticlePhysics> particles = new NativeArray<ParticlePhysics>(length, Allocator.Persistent);
 				NativeArray<ParticleForce> forces = new NativeArray<ParticleForce>(length, Allocator.Persistent);
@@ -185,10 +184,9 @@ namespace FluidSimulator.Objects {
 		private void InitOrResizeTransformsArray(int total, int prevTotal) {
 			// Update the transforms array
 			if (!_transforms.isCreated || total >= _transforms.length) {
-				int length = _transforms.length;
-				do {
-					length = length > 0 ? length * 2 : 128;
-				} while (length < total);
+				int length = _transforms.length > 0 ? _transforms.length : 128;
+				while (length < total)
+					length *= 2;
 
 				TransformAccessArray transforms = new TransformAccessArray(length);
 
