@@ -184,7 +184,7 @@ namespace FluidSimulator.Objects {
 		private void InitOrResizeTransformsArray(int total, int prevTotal) {
 			// Update the transforms array
 			if (!_transforms.isCreated || total >= _transforms.length) {
-				int length = !_transforms.isCreated ? _transforms.length : 128;
+				int length = _transforms.isCreated ? _transforms.length : 128;
 				while (length < total)
 					length *= 2;
 
