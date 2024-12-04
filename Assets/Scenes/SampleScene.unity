@@ -1059,11 +1059,11 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   database: {fileID: 11400000, guid: b10740908b691324890c127ed4bd168a, type: 2}
   _fluidCreatorPrimary: {fileID: 0}
-  _primaryFluid: 0
+  _primaryFluid: 1
   _dispenserPrimary: {fileID: 2099443181}
   _dispenserPrimaryTimers: {fileID: 0}
   _fluidCreatorSecondary: {fileID: 0}
-  _secondaryFluid: 1
+  _secondaryFluid: 0
   _dispenserSecondary: {fileID: 1833863482}
   _dispenserSecondaryTimers: {fileID: 0}
 --- !u!1 &489749472
